@@ -9,9 +9,11 @@ import UIKit
 
 class BurnItDownView: UIView {
 
-    let duration = 2.0
-    public var fireEmitter = CAEmitterLayer()
-    public var emitterCell = CAEmitterCell()
+    public var duration = 2.0
+
+    var completion: (()->Void)? = nil
+    private var fireEmitter = CAEmitterLayer()
+    private var emitterCell = CAEmitterCell()
     let gradientLayer = CAGradientLayer()
 
     func animateEmitterLayer() {
@@ -60,14 +62,11 @@ class BurnItDownView: UIView {
         emitterCell.scaleSpeed = 0.3
     }
 
-    public func burnItDown() {
+    public func burnItDown(completion: (()->Void)? = nil) {
         guard let superview = superview else { return }
         configureGradientLayer()
         configureFireCell()
-        let layerFrame = frame
-        print("viewToBurn.layerFrame = \(layerFrame)")
         let position = CGPoint(x: superview.bounds.width / 2, y:  frame.origin.y - 40)
-        print("Emitter position = \(position)")
         fireEmitter.emitterPosition = position
         fireEmitter.emitterSize = CGSize(width: frame.width, height: 10)
         fireEmitter.renderMode = .additive
@@ -76,12 +75,13 @@ class BurnItDownView: UIView {
         fireEmitter.opacity = 0.5
         superview.layer.addSublayer(fireEmitter)
 
+        self.completion = completion
+
         animateEmitterLayer()
         animateGradientMask()
     }
     func reduceBirthRate() {
         fireEmitter.birthRate -= 20
-        print(fireEmitter.birthRate)
         if fireEmitter.birthRate > 0 {
             DispatchQueue.main.asyncAfter(deadline: .now() + 0.4) {
                 self.reduceBirthRate()
@@ -92,6 +92,7 @@ class BurnItDownView: UIView {
                 self.fireEmitter.removeFromSuperlayer()
                 self.fireEmitter = CAEmitterLayer()
                 self.emitterCell = CAEmitterCell()
+                self.completion?()
             }
         }
     }

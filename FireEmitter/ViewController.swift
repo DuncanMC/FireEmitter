@@ -12,18 +12,11 @@ class ViewController: UIViewController {
 
     @IBOutlet weak var viewToBurn: BurnItDownView!
 
-    override func viewDidLoad() {
-        super.viewDidLoad()
-    }
-
-    override func viewWillAppear(_ animated: Bool) {
-        super.viewWillAppear(animated)
-    }
-
-    @IBAction func handleBurnItDownButton(_ sender: Any) {
-        let layerFrame = viewToBurn.layer.frame
-        print("viewToBurn.layerFrame = \(layerFrame)")
-        viewToBurn.burnItDown()
+    @IBAction func handleBurnItDownButton(_ button: UIButton) {
+        button.isEnabled = false
+        viewToBurn.burnItDown() {
+            button.isEnabled = true
+        }
     }
 
 }
