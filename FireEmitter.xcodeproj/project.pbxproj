@@ -15,6 +15,7 @@
 		AEF0056F2677C22000E5D89F /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = AEF0056D2677C22000E5D89F /* LaunchScreen.storyboard */; };
 		AEF0057A2677C22000E5D89F /* FireEmitterTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = AEF005792677C22000E5D89F /* FireEmitterTests.swift */; };
 		AEF005852677C22000E5D89F /* FireEmitterUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = AEF005842677C22000E5D89F /* FireEmitterUITests.swift */; };
+		AEF0059C267819BD00E5D89F /* BurnItDownView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AEF0059B267819BD00E5D89F /* BurnItDownView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -49,6 +50,7 @@
 		AEF005802677C22000E5D89F /* FireEmitterUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = FireEmitterUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		AEF005842677C22000E5D89F /* FireEmitterUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FireEmitterUITests.swift; sourceTree = "<group>"; };
 		AEF005862677C22000E5D89F /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		AEF0059B267819BD00E5D89F /* BurnItDownView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BurnItDownView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -102,6 +104,7 @@
 				AEF005622677C21F00E5D89F /* AppDelegate.swift */,
 				AEF005642677C21F00E5D89F /* SceneDelegate.swift */,
 				AEF005662677C21F00E5D89F /* ViewController.swift */,
+				AEF0059B267819BD00E5D89F /* BurnItDownView.swift */,
 				AEF005682677C21F00E5D89F /* Main.storyboard */,
 				AEF0056B2677C22000E5D89F /* Assets.xcassets */,
 				AEF0056D2677C22000E5D89F /* LaunchScreen.storyboard */,
@@ -260,6 +263,7 @@
 			files = (
 				AEF005672677C21F00E5D89F /* ViewController.swift in Sources */,
 				AEF005632677C21F00E5D89F /* AppDelegate.swift in Sources */,
+				AEF0059C267819BD00E5D89F /* BurnItDownView.swift in Sources */,
 				AEF005652677C21F00E5D89F /* SceneDelegate.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
