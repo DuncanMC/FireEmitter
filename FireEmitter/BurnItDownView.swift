@@ -14,6 +14,8 @@ class BurnItDownView: UIView {
     var completion: (()->Void)? = nil
     private var fireEmitter = CAEmitterLayer()
     private var emitterCell = CAEmitterCell()
+    private var emitterCell2 = CAEmitterCell()
+    private var emitterCell3 = CAEmitterCell()
     let gradientLayer = CAGradientLayer()
 
     func animateEmitterLayer() {
@@ -27,9 +29,9 @@ class BurnItDownView: UIView {
     }
     func configureGradientLayer() {
         gradientLayer.frame = bounds
-        let colors: [UIColor] = [.clear, .white, .white]
+        let colors: [UIColor] = [.clear, .clear, .white, .white]
         gradientLayer.colors = colors.map { $0.cgColor }
-        gradientLayer.locations = [-0.2, 0, 1]
+        gradientLayer.locations = [-0.4, -0.2, 0.0, 1]
         gradientLayer.startPoint = CGPoint(x: 0.5, y: 0)
         gradientLayer.endPoint = CGPoint(x: 0.5, y: 1)
         layer.mask = gradientLayer
@@ -37,46 +39,56 @@ class BurnItDownView: UIView {
 
     func animateGradientMask() {
         let animation = CABasicAnimation(keyPath: "locations")
-        animation.fromValue = [-0.2, 0, 1]
-        animation.toValue = [1.0, 1.0, 1.0]
+        animation.fromValue = [-0.4, -0.2, 0.0, 1.0]
+        animation.toValue = [0.0, 1.0, 1.2, 1.4]
         CATransaction.setDisableActions(true)
-        gradientLayer.locations = [1.0, 1.0, 1.0]
+        gradientLayer.locations = [0.0, 1.0, 1.2, 1.2]
         animation.delegate = self
-        animation.duration = duration
+        animation.duration = duration * 1.2
         gradientLayer.add(animation, forKey: nil)
     }
 
 
-    func configureFireCell() {
-        emitterCell.alphaSpeed = -0.3
-        emitterCell.birthRate = 300
-        emitterCell.lifetime = 30.0
-        emitterCell.lifetimeRange = 0.5
-        emitterCell.color = UIColor(red: 0.8, green: 0.4, blue: 0.2, alpha: 0.6).cgColor
-        emitterCell.contents = UIImage(named: "fireSmall")?.cgImage
-        emitterCell.emissionLongitude = CGFloat.pi
-        emitterCell.velocity = 80
-        emitterCell.velocityRange = 10
-        emitterCell.emissionRange = CGFloat.pi/8
-        emitterCell.yAcceleration = -200
-        emitterCell.scaleSpeed = 0.3
+    func configureFireCell(_ fireCell: CAEmitterCell,
+                           imageName: String,
+                           birthRate: Float  = 100){
+        fireCell.alphaSpeed = -0.3
+        fireCell.birthRate = birthRate
+        fireCell.lifetime = 30.0
+        fireCell.lifetimeRange = 0.5
+        fireCell.color = UIColor(red: 0.8, green: 0.4, blue: 0.2, alpha: 0.6).cgColor
+        if let image = UIImage(named: imageName)?.cgImage {
+            print("Loaded image named '\(imageName)'")
+            fireCell.contents = image
+        } else {
+            print("Unable to load image named '\(imageName)'")
+        }
+        fireCell.emissionLongitude = CGFloat.pi
+        fireCell.velocity = 80
+        fireCell.velocityRange = 10
+        fireCell.emissionRange = CGFloat.pi/8
+        fireCell.yAcceleration = -200
+        fireCell.scaleSpeed = 0.3
     }
 
     public func burnItDown(completion: (()->Void)? = nil) {
         guard let superview = superview else { return }
         configureGradientLayer()
-        configureFireCell()
+        configureFireCell(emitterCell, imageName: "fireSmall", birthRate: 75)
+        configureFireCell(emitterCell2, imageName: "fire2-small", birthRate: 75)
+        configureFireCell(emitterCell3, imageName: "fire_emoji_small", birthRate: 150)
         let position = CGPoint(x: superview.bounds.width / 2, y:  frame.origin.y - 40)
         fireEmitter.emitterPosition = position
         fireEmitter.emitterSize = CGSize(width: frame.width, height: 10)
         fireEmitter.renderMode = .additive
         fireEmitter.emitterShape = .line
-        fireEmitter.emitterCells = [emitterCell]
+        fireEmitter.emitterCells = [emitterCell, emitterCell2, emitterCell3]
         fireEmitter.opacity = 0.5
         superview.layer.addSublayer(fireEmitter)
 
         self.completion = completion
 
+//        fireEmitter.speed = 0.2
         animateEmitterLayer()
         animateGradientMask()
     }
@@ -88,10 +100,9 @@ class BurnItDownView: UIView {
             }
         } else {
             DispatchQueue.main.asyncAfter(deadline: .now() + 2.0) {
-                self.gradientLayer.locations = [-0.5, 0, 1]
+                self.gradientLayer.locations = [-0.4, -0.2, 0.0, 1.0]
                 self.fireEmitter.removeFromSuperlayer()
                 self.fireEmitter = CAEmitterLayer()
-                self.emitterCell = CAEmitterCell()
                 self.completion?()
             }
         }
