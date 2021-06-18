@@ -65,9 +65,10 @@ class BurnItDownView: UIView {
         }
         fireCell.emissionLongitude = CGFloat.pi
         fireCell.velocity = 80
-        fireCell.velocityRange = 10
+        fireCell.velocityRange = 20
         fireCell.emissionRange = CGFloat.pi/8
         fireCell.yAcceleration = -200
+        fireCell.scaleRange = 0.2
         fireCell.scaleSpeed = 0.3
     }
 
@@ -83,7 +84,7 @@ class BurnItDownView: UIView {
         fireEmitter.renderMode = .additive
         fireEmitter.emitterShape = .line
         fireEmitter.emitterCells = [emitterCell, emitterCell2, emitterCell3]
-        fireEmitter.opacity = 0.5
+        fireEmitter.opacity = 0.75 
         superview.layer.addSublayer(fireEmitter)
 
         self.completion = completion
